@@ -55,7 +55,8 @@ device_type = EMULATOR
 if device_type is REAL:
     device = ['-d']
 elif device_type is EMULATOR:
-    emulator = os.environ['ANDROID_AVD_DEVICE'] # access to emulator plugin device
+    # access to emulator plugin device
+    emulator = os.environ['ANDROID_AVD_DEVICE']
     device = ['-s'] + [emulator]
 
 # project
@@ -151,11 +152,14 @@ def build(arg):
         # look if it's not already set
         manifest = open('AndroidManifest.xml', 'r')
         manifest = manifest.read()
-        default = re.search('android:name="android.test.InstrumentationTestRunner"', manifest)
+        default = re.search(
+            'android:name="android.test.InstrumentationTestRunner"', manifest)
         # if default test-runner is set
         if default:
-            new_manifest = re.sub('android:name="android.test.InstrumentationTestRunner"',
-                                  'android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"', manifest)
+            new_manifest = re.sub(
+                'android:name="android.test.InstrumentationTestRunner"',
+                'android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"',
+                manifest)
             manifest = open('AndroidManifest.xml', 'w')
             manifest.write(new_manifest)
             # close AndroidManifest.xml
@@ -188,14 +192,16 @@ def run_tests():
     """Runs tests."""
     print 'Running tests...'
     command = [adb] + device + ['shell', 'am', 'instrument', '-w',
-                                package_name + '.tests' + '/com.zutubi.android.junitreport.JUnitReportTestRunner']
+        package_name + '.tests' +
+        '/com.zutubi.android.junitreport.JUnitReportTestRunner']
     execute(command)
     print '  Done.'
 
 def fetch_report():
     """Downloads generated JUnit test report."""
     print 'Fetching test report...'
-    command = [adb] + device + ['pull', '/data/data/' + package_name + '/files/junit-report.xml', reports_dir]
+    command = [adb] + device + ['pull', '/data/data/' + package_name +
+        '/files/junit-report.xml', reports_dir]
     execute(command)
     print '  Done.'
 
