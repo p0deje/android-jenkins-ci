@@ -90,7 +90,7 @@ def create_build_xml(arg):
         build_project.appendChild(build_project_dir)
     elif arg is APPLICATION:
         build_project.setAttribute('name', app_name)
-        # write <project>
+    # write <project>
     build_project.setAttribute('default', 'help')
     build_xml.appendChild(build_project)
     # write <property name='target'>
@@ -113,7 +113,7 @@ def create_build_xml(arg):
         build_pathelement = build_xml.createElement('pathelement')
         build_pathelement.setAttribute('path', '${sdk.dir}/tools/lib/' + jar)
         build_path.appendChild(build_pathelement)
-        # write <taskdef>
+    # write <taskdef>
     build_taskdef = build_xml.createElement('taskdef')
     build_taskdef.setAttribute('classpathref', 'android.antlibs')
     build_taskdef.setAttribute('classname', 'com.android.ant.SetupTask')
@@ -133,12 +133,11 @@ def build(arg):
         os.chdir(app_dir)
     elif arg is TESTS:
         os.chdir(tests_dir)
-        # check for build.xml existence
+    # check for build.xml existence
     exist = os.path.exists('build.xml')
     if exist:
         print 'Apache Ant build.xml file exists...'
     else:
-        # create temporary build.xml
         print 'Apache Ant build.xml file does not exist. Writing new one...'
         if arg is APPLICATION:
             build_xml = create_build_xml(APPLICATION)
@@ -147,7 +146,7 @@ def build(arg):
         temp_build_xml = open('build.xml', 'w')
         temp_build_xml.write(build_xml)
         temp_build_xml.close()
-        # for tests, AndroidManifest.xml additionally needs non-default test-runner
+    # for tests, AndroidManifest.xml additionally needs non-default test-runner
     if arg is TESTS:
         # look if it's not already set
         manifest = open('AndroidManifest.xml', 'r')
@@ -161,7 +160,7 @@ def build(arg):
             manifest.write(new_manifest)
             # close AndroidManifest.xml
             manifest.close()
-        # build apk file
+    # build apk file
     print 'Compiling...'
     execute(['ant', '-quiet', 'debug'])
     print '  Done.'
@@ -169,7 +168,7 @@ def build(arg):
     if not exist:
         print 'Removing temporary build.xml...'
         os.unlink('build.xml')
-        # go back to root
+    # go back to root
     os.chdir(root)
 
 def install(arg):
@@ -180,7 +179,7 @@ def install(arg):
         apk = tests_dir + '/bin/' + tests_name + '-debug.apk'
     elif arg is APPLICATION:
         apk = app_dir + '/bin/' + app_name + '-debug.apk'
-        # install
+    # install
     command = [adb] + device + ['install', apk]
     execute(command)
     print '  Done.'
