@@ -13,6 +13,8 @@ android-junit-report (https://github.com/jsankey/android-junit-report)
     == Installation ==
 Change all necessary variables to fit your project and add to your android-junit-report.jar tests/lib/ directory.
 Then just add build step of Python script and insert modified script.
+More information on how to setup continuos integration of Android apps is available at
+http://p0deje.blogspot.com/2011/03/continuos-integration-of-android-apps.html
 
     == Support ==
 If you experience any problems, feel free to report any bugs to https://github.com/p0deje/android-jenkins-ci/issues
